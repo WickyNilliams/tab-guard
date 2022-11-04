@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      tab-trap {
+        display: block;
+        padding: 1em;
+        background: rgb(0 0 0 / 0.05);
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Nested traps</h2>
+    <tab-trap>
+      <button>focus trap</button>
+      <p>hello world!</p>
+
+      <tab-trap disabled>
+        <button>focus trap</button>
+        <p>hello world!</p>
+
+        <button>focus trap!</button>
+      </tab-trap>
+
+      <button>focus trap</button>
+    </tab-trap>
+
+    <h2>Nested shadow roots</h2>
+
+    <tab-trap>
+      <div>
+        <template shadowrootmode="open">
+          <button>in shadow root</button>
+        </template>
+      </div>
+
+      <tab-trap>
+        <div>
+          <template shadowrootmode="open">
+            <button>inner 1</button>
+          </template>
+        </div>
+        <button>inner 2</button>
+      </tab-trap>
+
+      <button>outer</button>
+    </tab-trap>
+
+    <div>
+      <template shadowrootmode="open">
+        <button>in shadow root</button>
+      </template>
+    </div>
+
+    <div id="test">
+      <iframe src="." frameborder="0"></iframe>
+      <a>test</a>
+      <div>LOL</div>
+
+      <fieldset disabled="disabled" tabindex="0">
+        <legend>test</legend>
+        <input type="text" />
+      </fieldset>
+
+      <button>hello</button>
+
+      <tab-trap>
+        <div hidden>
+          <button>hidden</button>
+        </div>
+        <button id="first">first</button>
+        <button id="second">second</button>
+      </tab-trap>
+
+      <svg viewBox="0 0 300 100" stroke="red" fill="grey">
+        <circle cx="50" cy="50" r="40" />
+        <circle cx="150" cy="50" r="4" />
+      </svg>
+
+      <tab-trap id="what">
+        <div style="display: none">
+          <button id="error">hidden</button>
+        </div>
+        <button id="first">first</button>
+        <button id="second">second</button>
+      </tab-trap>
+      <button id="lol">outside</button>
+
+      <div contenteditable="false">Lorem, ipsum dolor.</div>
+      <div contenteditable>Lorem ipsum dolor sit amet.</div>
+      <div contenteditable tabindex="-1">Lorem ipsum dolor sit amet.</div>
+    </div>
+
+    <tab-trap id="what" disabled>
+      <div style="display: none">
+        <button id="error">hidden</button>
+      </div>
+      <button id="first">first</button>
+      <button id="second">second</button>
+    </tab-trap>
+
+    <div style="display: contents" tabindex="0">display: contents</div>
+
+    <tab-trap>
+      <label>Radio 1<input name="test" type="radio" disabled /></label>
+      <label>Radio 2<input name="test" id="first" type="radio" /></label>
+      <label>Radio 3<input name="test" type="radio" checked /></label>
+      <button id="second">second</button>
+    </tab-trap>
+
+    <script type="module">
+      import "../src/tab-trap.js";
+    </script>
+  </body>
+</html>
