@@ -35,7 +35,12 @@ function firstTabbableElement(node, trap, radios = new Set()) {
     !radios.has(node.name)
   ) {
     radios.add(node.name);
-    node = trap.querySelector(`[name="${node.name}"][checked]`) ?? node;
+    for (const radio of trap.querySelectorAll(`[name="${node.name}"]`)) {
+      if (radio.checked) {
+        node = radio;
+        break;
+      }
+    }
   }
 
   if (node instanceof HTMLElement && trap.isTabbable(node)) {
