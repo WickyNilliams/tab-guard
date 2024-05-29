@@ -77,7 +77,8 @@ function upgrade(obj, key) {
 const KEYDOWN = "keydown";
 const FOCUS = "focus";
 const DISABLED = "disabled";
-const template = `<slot></slot><div tabindex="0" aria-hidden="true"></div>`;
+// position: absolute takes the guard out of flexbox flow, whilst remaining focusable
+const template = `<slot></slot><div tabindex="0" aria-hidden="true" style="position:absolute"></div>`;
 
 export class TabTrap extends HTMLElement {
   #guard;
