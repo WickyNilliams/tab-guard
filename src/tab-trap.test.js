@@ -1,10 +1,4 @@
-import {
-  expect,
-  fixture,
-  html,
-  defineCE,
-  unsafeStatic,
-} from "@open-wc/testing";
+import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import { TabTrap } from "./tab-trap.js";
 
@@ -32,15 +26,32 @@ function getActiveElement(root = document) {
   return active;
 }
 
-async function tabSequence(count) {
+/**
+ *
+ * @param {number} count
+ * @param {"backward" | "forward"} direction
+ * @returns
+ */
+async function tabSequence(count, direction = "forward") {
   let result = [];
   for (let i = 0; i < count; i++) {
-    await tab();
+    direction === "forward" ? await tab() : await shiftTab();
     result.push(getActiveElement());
   }
 
   return result;
 }
+
+customElements.define(
+  "test-fixture",
+  class TestFixture extends HTMLElement {
+    constructor() {
+      super();
+      const shadow = this.attachShadow({ mode: "open" });
+      shadow.innerHTML = `<button><slot></slot></button>`;
+    }
+  }
+);
 
 describe("tab-trap", () => {
   it("works", async () => {
@@ -181,31 +192,33 @@ describe("tab-trap", () => {
   });
 
   it("handles elements in shadow roots", async () => {
-    const tagName = defineCE(
-      class TestElement extends HTMLElement {
-        constructor() {
-          super();
-          const shadow = this.attachShadow({ mode: "open" });
-          shadow.innerHTML = `<button><slot></slot></button>`;
-        }
-      }
-    );
-    const tag = unsafeStatic(tagName);
-
-    const el = await fixture(html`
+    await fixture(html`
       <tab-trap>
-        <${tag} id="ce">in shadow dom</${tag}>
+        <test-fixture id="ce">in shadow dom</test-fixture>
         <button id="btn">button 2</button>
       </tab-trap>
 
       <button>outer</button>
     `);
 
-    const ce = el.querySelector(`#ce`);
-    const btn = el.querySelector(`#btn`);
-
     const seq = await tabSequence(3);
     expect(seq).to.have.ordered.members([ce, btn, ce]);
+  });
+
+  it("handles elements in shadow roots for shift+tab", async () => {
+    await fixture(html`
+      <button id="outer">outer</button>
+      <tab-trap>
+        <test-fixture id="ce">in shadow dom</test-fixture>
+        <button id="btn">button 2</button>
+      </tab-trap>
+    `);
+
+    const forwards = await tabSequence(3);
+    expect(forwards).to.have.ordered.members([outer, ce, btn]);
+
+    const backwards = await tabSequence(2, "backward");
+    expect(backwards).to.have.ordered.members([ce, btn]);
   });
 
   it("handles arbitrary elements with tabindex='0'", async () => {

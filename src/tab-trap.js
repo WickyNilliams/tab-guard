@@ -134,14 +134,12 @@ export class TabTrap extends HTMLElement {
       e.type === KEYDOWN &&
       /** @type {KeyboardEvent} */ (e).shiftKey &&
       /** @type {KeyboardEvent} */ (e).key === "Tab" &&
-      e.target === this.firstTabbableElement()
+      e.composedPath()[0] === this.firstTabbableElement()
     ) {
       this.#isWrapping = true;
       this.#guard.focus();
       this.#isWrapping = false;
-    }
-
-    if (e.type === FOCUS && !this.#isWrapping) {
+    } else if (e.type === FOCUS && !this.#isWrapping) {
       this.focus();
     }
   }
