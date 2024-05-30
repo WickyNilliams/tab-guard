@@ -10,11 +10,25 @@ Finally, it aims to be as lightweight and fast as possible. Many other focus tra
 
 ## Installation
 
-```sh
+```bash
 npm install tab-trap
 ```
 
 ## Usage
+
+### Via module
+
+```js
+import "tab-trap";
+```
+
+### Via CDN
+
+```html
+<script type="module" src="https://unpkg.com/tab-trap"></script>
+```
+
+### Using the component
 
 ```html
 <tab-trap>
@@ -23,21 +37,6 @@ npm install tab-trap
   <button>Button 3</button>
 </tab-trap>
 <button>Button 4</button>
-```
-
-In the above example, if you tab through the buttons, focus will not be able to leave the trap. If you tab past Button 3, focus will go back to Button 1. If you shift-tab past Button 1, focus will go to Button 3. You will not be able to reach Button 4 via tabbing.
-
-Tab traps can be nested:
-
-```html
-<tab-trap>
-  <button>Button 1</button>
-  <button>Button 2</button>
-  <tab-trap>
-    <button>Button 3</button>
-    <button>Button 4</button>
-  </tab-trap>
-</tab-trap>
 ```
 
 Tab traps can be `disabled`:
@@ -53,35 +52,23 @@ Tab traps can be `disabled`:
 </tab-trap>
 ```
 
-## Extensibility
+Tab traps can be nested:
 
-Tab trap is a custom element, so it can be extended like any other custom element. This allows you to add custom behavior or styling.
-
-If you wish to tweak the logic for what is considered tabbable, you can override the `isTabbable` method:
-
-```js
-import { TabTrap } from "tab-trap";
-
-class MyTabTrap extends TabTrap {
-  isTabbable(element) {
-    return super.isTabbable(element) && someCustomCheck(element);
-  }
-}
-
-customElements.define("my-tab-trap", MyTabTrap);
+```html
+<tab-trap>
+  <button>Button 1</button>
+  <button>Button 2</button>
+  <tab-trap>
+    <button>Button 3</button>
+    <button>Button 4</button>
+  </tab-trap>
+</tab-trap>
 ```
 
-## Accessibility
+## Docs
 
-Focus traps are useful for keyboard accessibility. They can be used to trap focus within a modal, for example. This is useful because it prevents users from tabbing out of the modal and getting lost in the rest of the page.
+For full documentation, visit: https://wicky.nillia.ms/tab-trap/
 
-For screen reader support, you need to add `aria-hidden="true"` or `inert` to all other elements in the page. This may be added as a built-in feature in future (PRs welcome!).
+## License
 
-## Browser support
-
-Tab trap relies on
-
-- Custom Elements APIs
-- Private JS properties
-
-Custom elements have been supported for many years now. Private properties can be transpiled away if you wish.
+MIT

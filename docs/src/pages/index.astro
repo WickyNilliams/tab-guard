@@ -1,0 +1,316 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Code } from "astro:components";
+import PageIntro from "../components/PageIntro.astro";
+import Example from "../components/Example.astro";
+import Heading from "../components/Heading.astro";
+
+const tagline = "A tiny focus trap component";
+---
+
+<Layout
+  root
+  meta={{
+    title: `Tab trap: ${tagline}`,
+    description:
+      "A web component for trapping tab presses. Small file size, simple API, framework independent",
+  }}
+  og={{ type: "website" }}
+>
+  <PageIntro slot="intro">{tagline}</PageIntro>
+
+  <!-- <HeroExample /> -->
+
+  <p class="opener">
+    Tab trap is a custom element/web component that traps tab presses. It offers
+    a declarative API via HTML, making it easy to understand and use. It can be
+    used with all frameworks and libraries.
+  </p>
+
+  <Heading level={2}>Goals</Heading>
+
+  <ul>
+    <li><strong>Small</strong> - 0.8KB min/brotli</li>
+    <li><strong>Simple</strong> - practically no API</li>
+    <li>
+      <strong>Efficient</strong> - minimal DOM traversal
+    </li>
+  </ul>
+
+  <Heading level={2}>Installation</Heading>
+
+  <Code
+    lang="html"
+    code={`<script type="module" src="https://unpkg.com/tab-trap"></script>`}
+  />
+
+  <p>
+    Alternatively, you can install the package via npm or your preferred package
+    manager:
+  </p>
+
+  <Code lang="shell" code="npm install tab-trap" />
+
+  <p>
+    Then import the components into your JavaScript or TypeScript file. For
+    example, using ES modules:
+  </p>
+
+  <Code lang="javascript" code={`import "tab-trap";`} />
+
+  <Heading level={2}>Guide</Heading>
+
+  <p>
+    Assuming you have followed the installation instructions, the component is
+    now ready to use.
+  </p>
+
+  <Heading level={3}>Basics</Heading>
+
+  <p>Tab traps are enabled by default. Once you tab in, you can't tab out.</p>
+
+  <Example lineLength={70}>
+    <tab-trap>
+      <label>Example: <input type="text" /></label>
+      <label>Example: <input type="text" /></label>
+
+      <button>Toggle trap</button>
+    </tab-trap>
+  </Example>
+
+  <p>
+    You can disable a trap at any time with the <code>disabled</code> attribute/property
+  </p>
+
+  <Example lineLength={70}>
+    <tab-trap disabled>
+      <label>Example: <input type="text" /></label>
+      <label>Example: <input type="text" /></label>
+
+      <button>Toggle trap</button>
+    </tab-trap>
+  </Example>
+
+  <Heading level={3}>Shadow DOM</Heading>
+
+  <p>Elements in shadow roots are handled correctly</p>
+
+  <Example lineLength={70}>
+    <tab-trap>
+      <label>Example: <input type="text" /></label>
+
+      <div>
+        <template shadowrootmode="open">
+          <label>In shadow root: <input type="text" /></label>
+        </template>
+      </div>
+
+      <label>Example: <input type="text" /></label>
+
+      <button>Toggle trap</button>
+    </tab-trap>
+  </Example>
+
+  <p>Traps can be placed inside shadow roots, and combined with slots</p>
+
+  <Example lineLength={70}>
+    <div>
+      <template shadowrootmode="open">
+        <tab-trap id="trap">
+          <slot is:inline />
+          <button
+            onclick="t = this.closest('tab-trap'); t.disabled = !t.disabled"
+            >Toggle trap</button
+          >
+        </tab-trap>
+      </template>
+
+      <label>Example: <input type="text" /></label>
+      <label>Example: <input type="text" /></label>
+    </div>
+  </Example>
+
+  <Heading level={3}>Nesting</Heading>
+
+  <p>
+    Traps can be nested inside one another arbitrarily. Each has their own
+    enabled/disabled state
+  </p>
+
+  <Example lineLength={70}>
+    <tab-trap>
+      <label>Example: <input type="text" /></label>
+      <label>Example: <input type="text" /></label>
+
+      <tab-trap disabled>
+        <label>Example: <input type="text" /></label>
+        <label>Example: <input type="text" /></label>
+        <button>Toggle trap</button>
+      </tab-trap>
+
+      <button>Toggle trap</button>
+    </tab-trap>
+  </Example>
+
+  <Heading level={3}>Radios</Heading>
+
+  <p>
+    Radios are complicated since they effectively have a roving tab index. Here
+    they are handled correctly
+  </p>
+
+  <Example class="radios" lineLength={70}>
+    <tab-trap>
+      <label><input name="test" type="radio" /> Radio 1</label>
+      <label><input name="test" type="radio" disabled /> Radio 2</label>
+      <label><input name="test" type="radio" checked /> Radio 3</label>
+
+      <button>Toggle trap</button>
+    </tab-trap>
+  </Example>
+
+  <Heading level={2}>Extensibility</Heading>
+
+  <p>
+    Tab trap is a custom element, so it can be extended like any other custom
+    element. This allows you to add custom behavior or styling.
+  </p>
+  <p>
+    If you wish to tweak the logic for what is considered tabbable, you can
+    override the <code>isTabbable</code> method:
+  </p>
+
+  <Code
+    lang="ts"
+    code={`import { TabTrap } from "tab-trap";
+
+class MyTabTrap extends TabTrap {
+  isTabbable(element) {
+    return (
+      super.isTabbable(element) &&
+      someCustomCheck(element)
+    );
+  }
+}
+
+customElements.define("my-tab-trap", MyTabTrap);`}
+  />
+
+  <Heading level={2}>Accessibility</Heading>
+
+  <p>
+    Focus traps are useful for keyboard accessibility e.g. they can be used to
+    trap focus within a modal. This is useful because it prevents users from
+    tabbing out of the modal and getting lost in the rest of the page. <strong>
+      Care must be taken to ensure users have a way to escape from a trap</strong
+    >.
+  </p>
+
+  <p>
+    For screen reader support, you need to add <code>aria-hidden="true"</code> or
+    <code>inert</code> to all other elements in the page. This may be added as a
+    built-in feature in future (PRs welcome!).
+  </p>
+
+  <Heading level={2}>Issues</Heading>
+
+  <p>
+    If you have an issue or feature request, please open an issue in the
+    <a href="https://github.com/WickyNilliams/tab-trap">repository</a>.
+  </p>
+</Layout>
+
+<script>
+  import { TabTrap } from "../../../src/tab-trap.js";
+
+  function delegate<T extends HTMLElement>(
+    node: EventTarget,
+    event: string,
+    selector: string,
+    handler: (el: T) => void
+  ) {
+    node.addEventListener(event, (e: Event) => {
+      const target = e.target as T;
+      if (target.closest(selector)) {
+        e.stopPropagation();
+        handler(target);
+      }
+    });
+  }
+
+  delegate(document, "click", "button", (e) => {
+    const trap = e.closest<TabTrap>("tab-trap");
+    if (trap) {
+      trap.disabled = !trap.disabled;
+    }
+  });
+</script>
+
+<style is:global>
+  tab-trap {
+    --color: #a3a3a3;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--space-3xs);
+    position: relative;
+    padding: var(--space-s);
+    border: 1px solid var(--color);
+    background: var(--bg);
+    border-radius: 3px;
+
+    tab-trap {
+      align-self: stretch;
+      margin-block: var(--space-2xs);
+    }
+
+    &::after {
+      content: "enabled";
+      position: absolute;
+      line-height: var(--step-2);
+      inset-block-start: -0.5lh;
+      inset-inline-end: var(--space-s);
+      border: 1px solid var(--color);
+      border-radius: 2px;
+      background: var(--bg);
+      padding-inline: var(--space-xs);
+      font-size: 0.875rem;
+    }
+
+    &[disabled]::after {
+      border-color: var(--color);
+      content: "disabled";
+    }
+
+    /* to avoid flicker on click, only match if a button isn't active */
+    &:not([disabled]):has(button:not(:active)):focus-within {
+      --color: red;
+      background: rgba(255, 0, 0, 0.1);
+
+      &::after {
+        content: "trapped";
+        background: var(--color);
+        color: white;
+        border-color: white;
+        outline: 1px solid var(--color);
+      }
+    }
+
+    button {
+      margin-block-start: var(--space-2xs);
+    }
+  }
+
+  .radios {
+    input {
+      margin: 0;
+    }
+    tab-trap {
+      gap: 0px;
+    }
+  }
+
+  .opener {
+    margin-block-start: var(--space-3xs);
+  }
+</style>
