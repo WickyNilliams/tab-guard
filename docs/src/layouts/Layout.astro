@@ -1,0 +1,110 @@
+---
+import "../styles/main.css";
+import PageHeader from "../components/PageHeader.astro";
+import PageNav from "../components/PageNav.astro";
+import PageTitle from "../components/PageTitle.astro";
+import PageFooter from "../components/PageFooter.astro";
+
+interface Props {
+  meta: {
+    title: string;
+    description: string | undefined;
+  };
+  og?: Partial<{
+    title?: string;
+    type?: "article" | "website";
+    url: string;
+    image: string;
+    description: string;
+    site_name: string;
+  }>;
+  root?: boolean;
+}
+
+const baseUrl = new URL(import.meta.env.BASE_URL, Astro.url);
+const ogImageUrl = new URL("og.png", baseUrl);
+
+const {
+  meta: { title, description },
+  og: {
+    title: ogTitle = title,
+    description: ogDescription = description,
+    type: ogType = "article",
+    url: ogUrl = Astro.url,
+    image: ogImage = ogImageUrl,
+    site_name: ogSiteName = "Tab trap",
+  } = {},
+  root,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{root ? title : `${title} - Tab trap`}</title>
+    <slot name="head" />
+
+    <!-- meta -->
+    <meta name="description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:site_name" content={ogSiteName} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#7c3aed" />
+  </head>
+
+  <body class="container">
+    <PageHeader>
+      <PageTitle slot="title" asLink={!root}>tab-trap</PageTitle>
+      <PageNav slot="nav" />
+      <div class="intro">
+        <slot name="intro" />
+      </div>
+    </PageHeader>
+
+    <main>
+      <slot />
+    </main>
+
+    <PageFooter class="footer">
+      Built by <a href="https://wicky.nillia.ms/">Nick Williams</a>
+    </PageFooter>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    block-size: 100%;
+  }
+
+  html {
+    padding-inline: var(--gutter);
+  }
+
+  body {
+    padding-block-start: var(--space-s-m);
+    background: var(--color-surface);
+    color: var(--color-body);
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  .intro :global(h1) {
+    margin-block: var(--space-s) 0;
+  }
+
+  .footer {
+    margin-block-start: var(--space-xl);
+    padding-block-end: var(--space-s-m);
+  }
+</style>

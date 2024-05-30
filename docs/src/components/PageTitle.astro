@@ -1,0 +1,34 @@
+---
+import Link from "./Link.astro";
+
+interface Props {
+  asLink: boolean;
+}
+---
+
+{
+  Astro.props.asLink ? (
+    <Link href="/" class="h1 title">
+      <slot />
+    </Link>
+  ) : (
+    <h1 class="h1 title">
+      <slot />
+    </h1>
+  )
+}
+
+<style>
+  .title {
+    color: var(--color-heading);
+    margin: 0;
+    font-size: var(--step-4);
+    text-decoration: none;
+    border-block-end: var(--space-3xs) solid var(--color-accent);
+
+    &:focus-visible {
+      outline-offset: 3px;
+      outline-width: 3px;
+    }
+  }
+</style>

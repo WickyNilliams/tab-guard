@@ -1,0 +1,37 @@
+---
+import Example from "./Example.astro";
+---
+
+<Example class="">
+  <button popovertarget="menu">Menu</button>
+  <div popover id="menu">
+    <tab-trap>
+      <label>Example: <input type="text" /></label>
+      <label>Example: <input type="text" /></label>
+    </tab-trap>
+  </div>
+</Example>
+
+<script>
+  import { TabTrap } from "../../../src/tab-trap";
+
+  const toggle = document.querySelector("button[popovertarget]")!;
+  const popover = document.querySelector<HTMLElement>("[popover]")!;
+  const trap = popover.querySelector<TabTrap>("tab-trap")!;
+
+  popover.addEventListener("beforetoggle", () => {
+    const box = toggle.getBoundingClientRect();
+    popover.style.left = `${box.x}px`;
+    popover.style.top = `${window.scrollY + box.bottom}px`;
+  });
+
+  popover.addEventListener("toggle", () => trap.focus());
+</script>
+
+<style is:global>
+  #menu {
+    position: absolute;
+    margin: 0;
+    margin-top: var(--space-xs);
+  }
+</style>
