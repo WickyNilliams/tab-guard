@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -29,10 +29,6 @@
       }
 
       :is(tab-trap .stack) > * {
-        margin: 0;
-      }
-
-      tab-trap > * {
         margin: 0;
       }
 
@@ -145,9 +141,9 @@
       </p>
 
       <div class="stack stack-s">
-        <label>Radio 1<input name="test" type="radio" /></label>
-        <label>Radio 2<input name="test" type="radio" disabled /></label>
-        <label>Radio 3<input name="test" type="radio" checked /></label>
+        <label><input name="test" type="radio" /> Radio 1</label>
+        <label><input name="test" type="radio" disabled /> Radio 2</label>
+        <label><input name="test" type="radio" checked /> Radio 3</label>
       </div>
 
       <button>Toggle</button>
