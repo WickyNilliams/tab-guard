@@ -10,7 +10,7 @@
     "start": "wds",
     "test": "wtr --coverage",
     "prebuild": "rm -f src/*.d.ts",
-    "build": "tsc && npm run gauge",
+    "build": "tsc && npm run gauge && npm run astro:build",
     "gauge": "file-gauge \"src/tab-guard.js\" --minify",
     "astro:dev": "astro dev --root ./docs",
     "astro:build": "astro check --root ./docs && astro build --root ./docs",
