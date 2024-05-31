@@ -1,12 +1,10 @@
 # `<tab-trap>`
 
-Tab trap is a custom element/web component that traps tab presses. It weighs 0.7KB when minified and compressed with brotli. It is written in vanilla JavaScript and has no dependencies.
+Tab trap is a custom element/web component that traps tab presses.
 
-It differs from many other focus trap libraries in that it offers a declarative API via HTML. This makes it easy to understand, since there is practically no API to learn. It also means it is usable with all frameworks and libraries with little effort.
-
-Another important detail is that it understands the shadow DOM and will take elements nested in shadow roots into account when calculating the trap boundaries. This is important for use in, or alongside, other web components.
-
-Finally, it aims to be as lightweight and fast as possible. Many other focus trap libraries traverse the entire sub-tree, collecting all tabbable elements. Others find both the first and last tabbable elements. `<tab-trap>` only has to find the _first_ tabbable element. Additionally, we skip entire subtrees where possible, further speeding up the search. Unless browsers offer a native API for traversing by tab order, this is likely the optimal approach.
+- **Small** - 0.8KB min/brotli
+- **Simple** - practically no API
+- **Efficient** - minimal DOM traversal
 
 ## Installation
 
