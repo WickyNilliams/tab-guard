@@ -4,7 +4,7 @@ const logsToFilter = ["Lit is in dev mode"];
 const patient = process.argv.includes("--patience");
 
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
-  files: "**/*.test.js",
+  files: "src/**/*.test.js",
   nodeResolve: true,
 
   coverageConfig: {
