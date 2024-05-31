@@ -36,7 +36,7 @@ function firstTabbableElement(node, trap, radios = new Set()) {
   ) {
     radios.add(node.name);
     for (const radio of trap.querySelectorAll(`[name="${node.name}"]`)) {
-      if (radio.checked) {
+      if (/** @type {HTMLInputElement} */ (radio).checked) {
         node = radio;
         break;
       }
