@@ -11,7 +11,7 @@ const tagline = "A tiny focus trap component";
 <Layout
   root
   meta={{
-    title: `Tab trap: ${tagline}`,
+    title: `Tab guard: ${tagline}`,
     description:
       "A web component for trapping tab presses. Small file size, simple API, framework independent",
   }}
@@ -22,9 +22,9 @@ const tagline = "A tiny focus trap component";
   <!-- <HeroExample /> -->
 
   <p class="opener">
-    Tab trap is a custom element/web component that traps tab presses. It offers
-    a declarative API via HTML, making it easy to understand and use. It can be
-    used with all frameworks and libraries.
+    Tab guard is a custom element/web component that traps tab presses. It
+    offers a declarative API via HTML, making it easy to understand and use. It
+    can be used with all frameworks and libraries.
   </p>
 
   <Heading level={2}>Goals</Heading>
@@ -41,7 +41,7 @@ const tagline = "A tiny focus trap component";
 
   <Code
     lang="html"
-    code={`<script type="module" src="https://unpkg.com/tab-trap"></script>`}
+    code={`<script type="module" src="https://unpkg.com/tab-guard"></script>`}
   />
 
   <p>
@@ -49,14 +49,14 @@ const tagline = "A tiny focus trap component";
     manager:
   </p>
 
-  <Code lang="shell" code="npm install tab-trap" />
+  <Code lang="shell" code="npm install tab-guard" />
 
   <p>
     Then import the components into your JavaScript or TypeScript file. For
     example, using ES modules:
   </p>
 
-  <Code lang="javascript" code={`import "tab-trap";`} />
+  <Code lang="javascript" code={`import "tab-guard";`} />
 
   <Heading level={2}>Guide</Heading>
 
@@ -67,15 +67,15 @@ const tagline = "A tiny focus trap component";
 
   <Heading level={3}>Basics</Heading>
 
-  <p>Tab traps are enabled by default. Once you tab in, you can't tab out.</p>
+  <p>Traps are enabled by default. Once you tab in, you can't tab out.</p>
 
   <Example lineLength={70}>
-    <tab-trap>
+    <tab-guard>
       <label>Example: <input type="text" /></label>
       <label>Example: <input type="text" /></label>
 
       <button>trap</button>
-    </tab-trap>
+    </tab-guard>
   </Example>
 
   <p>
@@ -83,12 +83,12 @@ const tagline = "A tiny focus trap component";
   </p>
 
   <Example lineLength={70}>
-    <tab-trap disabled>
+    <tab-guard disabled>
       <label>Example: <input type="text" /></label>
       <label>Example: <input type="text" /></label>
 
       <button>trap</button>
-    </tab-trap>
+    </tab-guard>
   </Example>
 
   <Heading level={3}>Shadow DOM</Heading>
@@ -96,7 +96,7 @@ const tagline = "A tiny focus trap component";
   <p>Elements in shadow roots are handled correctly</p>
 
   <Example lineLength={70}>
-    <tab-trap>
+    <tab-guard>
       <label>Example: <input type="text" /></label>
 
       <div>
@@ -108,7 +108,7 @@ const tagline = "A tiny focus trap component";
       <label>Example: <input type="text" /></label>
 
       <button>trap</button>
-    </tab-trap>
+    </tab-guard>
   </Example>
 
   <p>Traps can be placed inside shadow roots, and combined with slots</p>
@@ -116,13 +116,13 @@ const tagline = "A tiny focus trap component";
   <Example lineLength={70}>
     <div>
       <template shadowrootmode="open">
-        <tab-trap id="trap">
+        <tab-guard>
           <slot is:inline />
           <button
-            onclick="t = this.closest('tab-trap'); t.disabled = !t.disabled"
+            onclick="t = this.closest('tab-guard'); t.disabled = !t.disabled"
             >Toggle trap</button
           >
-        </tab-trap>
+        </tab-guard>
       </template>
 
       <label>Example: <input type="text" /></label>
@@ -138,18 +138,18 @@ const tagline = "A tiny focus trap component";
   </p>
 
   <Example lineLength={70}>
-    <tab-trap>
+    <tab-guard>
       <label>Example: <input type="text" /></label>
       <label>Example: <input type="text" /></label>
 
-      <tab-trap disabled>
+      <tab-guard disabled>
         <label>Example: <input type="text" /></label>
         <label>Example: <input type="text" /></label>
         <button>trap</button>
-      </tab-trap>
+      </tab-guard>
 
       <button>trap</button>
-    </tab-trap>
+    </tab-guard>
   </Example>
 
   <Heading level={3}>Radios</Heading>
@@ -160,19 +160,19 @@ const tagline = "A tiny focus trap component";
   </p>
 
   <Example class="radios" lineLength={70}>
-    <tab-trap>
+    <tab-guard>
       <label><input name="test" type="radio" /> Radio 1</label>
       <label><input name="test" type="radio" disabled /> Radio 2</label>
       <label><input name="test" type="radio" checked /> Radio 3</label>
 
       <button>trap</button>
-    </tab-trap>
+    </tab-guard>
   </Example>
 
   <Heading level={2}>Extensibility</Heading>
 
   <p>
-    Tab trap is a custom element, so it can be extended like any other custom
+    Tab guard is a custom element, so it can be extended like any other custom
     element. This allows you to add custom behavior or styling.
   </p>
   <p>
@@ -182,9 +182,9 @@ const tagline = "A tiny focus trap component";
 
   <Code
     lang="ts"
-    code={`import { TabTrap } from "tab-trap";
+    code={`import { TabGuard } from "tab-guard";
 
-class MyTabTrap extends TabTrap {
+class MyTabGuard extends TabGuard {
   isTabbable(element) {
     return (
       super.isTabbable(element) &&
@@ -193,26 +193,26 @@ class MyTabTrap extends TabTrap {
   }
 }
 
-customElements.define("my-tab-trap", MyTabTrap);`}
+customElements.define("my-tab-guard", MyTabGuard);`}
   />
 
-  <Heading level={2}>What tab trap doesn't do</Heading>
+  <Heading level={2}>What tab guard doesn't do</Heading>
 
   <p>
-    In order to remain small and efficient, tab trap does not aim for perfection
-    but rather to be <em>good enough</em>. It aims to do as little as possible
-    whilst still being useful in the general case.
+    In order to remain small and efficient, tab guard does not aim for
+    perfection but rather to be <em>good enough</em>. It aims to do as little as
+    possible whilst still being useful in the general case.
   </p>
 
   <Heading level={3}>Forcing focus</Heading>
 
   <p>
     Some focus trap libraries forcibly move focus to the trap. Either when the
-    trap is enabled, or on click outside. Tab trap does neither of these.
+    trap is enabled, or on click outside. Tab guard does neither of these.
   </p>
 
   <p>
-    Tab trap is enabled by default so it doesn't make sense to forcibly move
+    Tab guard is enabled by default so it doesn't make sense to forcibly move
     focus there. Instead, call <code>focus()</code> on the trap instance whenever
     you need e.g. on modal open. This will move focus to the first tabbable element.
   </p>
@@ -227,9 +227,9 @@ customElements.define("my-tab-trap", MyTabTrap);`}
 
   <p>
     Audio and video elements are tricky because they contain multiple tabbable
-    elements that are otherwise inaccessible to the outside world. Tab trap does
-    not perfectly handle these right now. This will hopefully be resolved in
-    future.
+    elements that are otherwise inaccessible to the outside world. Tab guard
+    does not perfectly handle these right now. This will hopefully be resolved
+    in future.
   </p>
 
   <Heading level={2}>Accessibility</Heading>
@@ -252,12 +252,12 @@ customElements.define("my-tab-trap", MyTabTrap);`}
 
   <p>
     If you have an issue or feature request, please open an issue in the
-    <a href="https://github.com/WickyNilliams/tab-trap">repository</a>.
+    <a href="https://github.com/WickyNilliams/tab-guard">repository</a>.
   </p>
 </Layout>
 
 <script>
-  import { TabTrap } from "../../../src/tab-trap.js";
+  import { TabGuard } from "../../../src/tab-guard.js";
 
   function delegate<T extends HTMLElement>(
     node: EventTarget,
@@ -275,7 +275,7 @@ customElements.define("my-tab-trap", MyTabTrap);`}
   }
 
   delegate(document, "click", "button", (e) => {
-    const trap = e.closest<TabTrap>("tab-trap");
+    const trap = e.closest<TabGuard>("tab-guard");
     if (trap) {
       trap.disabled = !trap.disabled;
     }
@@ -283,7 +283,7 @@ customElements.define("my-tab-trap", MyTabTrap);`}
 </script>
 
 <style is:global>
-  tab-trap {
+  tab-guard {
     --color: #a3a3a3;
     display: flex;
     flex-direction: column;
@@ -295,7 +295,7 @@ customElements.define("my-tab-trap", MyTabTrap);`}
     background: var(--bg);
     border-radius: 3px;
 
-    tab-trap {
+    tab-guard {
       align-self: stretch;
       margin-block: var(--space-2xs);
     }
@@ -349,7 +349,7 @@ customElements.define("my-tab-trap", MyTabTrap);`}
     input {
       margin: 0;
     }
-    tab-trap {
+    tab-guard {
       gap: 0px;
     }
   }

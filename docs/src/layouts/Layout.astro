@@ -32,7 +32,7 @@ const {
     type: ogType = "article",
     url: ogUrl = Astro.url,
     image: ogImage = ogImageUrl,
-    site_name: ogSiteName = "Tab trap",
+    site_name: ogSiteName = "Tab guard",
   } = {},
   root,
 } = Astro.props;
@@ -43,7 +43,7 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{root ? title : `${title} - Tab trap`}</title>
+    <title>{root ? title : `${title} - Tab guard`}</title>
     <slot name="head" />
 
     <!-- meta -->
@@ -60,7 +60,7 @@ const {
 
   <body class="container">
     <PageHeader>
-      <PageTitle slot="title" asLink={!root}>tab-trap</PageTitle>
+      <PageTitle slot="title" asLink={!root}>tab-guard</PageTitle>
       <PageNav slot="nav" />
       <div class="intro">
         <slot name="intro" />

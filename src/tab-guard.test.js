@@ -1,6 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
-import { TabTrap } from "./tab-trap.js";
+import { TabGuard } from "./tab-guard.js";
 
 async function tab() {
   await sendKeys({ press: "Tab" });
@@ -53,10 +53,10 @@ customElements.define(
   }
 );
 
-describe("tab-trap", () => {
+describe("tab-guard", () => {
   it("works", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <div>hello</div>
         <button id="first">hello world</button>
         <input id="second" name="text" />
@@ -75,7 +75,7 @@ describe("tab-trap", () => {
             radio 3
           </label>
         </fieldset>
-      </tab-trap>
+      </tab-guard>
     `);
 
     const seq = await tabSequence(4);
@@ -83,8 +83,8 @@ describe("tab-trap", () => {
   });
 
   it("handles disabled elements", async () => {
-    const el = await fixture(html`
-      <tab-trap>
+    await fixture(html`
+      <tab-guard>
         <div>hello</div>
         <button disabled>hello world</button>
         <input id="first" />
@@ -106,7 +106,7 @@ describe("tab-trap", () => {
         </fieldset>
 
         <button disabled>test</button>
-      </tab-trap>
+      </tab-guard>
     `);
 
     const seq = await tabSequence(3);
@@ -117,7 +117,7 @@ describe("tab-trap", () => {
     let count = 0;
 
     await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <div>hello</div>
         <button disabled>hello world</button>
         <input @focus=${() => count++} />
@@ -139,7 +139,7 @@ describe("tab-trap", () => {
         </fieldset>
 
         <button disabled>test</button>
-      </tab-trap>
+      </tab-guard>
     `);
 
     await tab();
@@ -151,16 +151,16 @@ describe("tab-trap", () => {
 
   it("can be nested", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <button id="outer1">outer 1</button>
 
-        <tab-trap>
+        <tab-guard>
           <button id="inner1">inner 1</button>
           <button id="inner2">inner 2</button>
-        </tab-trap>
+        </tab-guard>
 
         <button>outer 2</button>
-      </tab-trap>
+      </tab-guard>
     `);
 
     const seq = await tabSequence(4);
@@ -169,22 +169,24 @@ describe("tab-trap", () => {
 
   it("can be disabled", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <button id="outer1">outer 1</button>
 
-        <tab-trap disabled>
+        <tab-guard disabled>
           <button id="inner1">inner 1</button>
           <button id="inner2">inner 2</button>
-        </tab-trap>
+        </tab-guard>
 
         <button id="outer2">outer 2</button>
-      </tab-trap>
+      </tab-guard>
     `);
 
     let seq = await tabSequence(4);
     expect(seq).to.have.ordered.members([outer1, inner1, inner2, outer2]);
 
-    const trap = /** @type {TabTrap} */ (el.querySelector("tab-trap tab-trap"));
+    const trap = /** @type {TabGuard} */ (
+      el.querySelector("tab-guard tab-guard")
+    );
     trap.disabled = false;
 
     seq = await tabSequence(4);
@@ -193,10 +195,10 @@ describe("tab-trap", () => {
 
   it("handles elements in shadow roots", async () => {
     await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <test-fixture id="ce">in shadow dom</test-fixture>
         <button id="btn">button 2</button>
-      </tab-trap>
+      </tab-guard>
 
       <button>outer</button>
     `);
@@ -208,10 +210,10 @@ describe("tab-trap", () => {
   it("handles elements in shadow roots for shift+tab", async () => {
     await fixture(html`
       <button id="outer">outer</button>
-      <tab-trap>
+      <tab-guard>
         <test-fixture id="ce">in shadow dom</test-fixture>
         <button id="btn">button 2</button>
-      </tab-trap>
+      </tab-guard>
     `);
 
     const forwards = await tabSequence(3);
@@ -223,10 +225,10 @@ describe("tab-trap", () => {
 
   it("handles arbitrary elements with tabindex='0'", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <div id="fake" role="button" tabindex="0">fake button</div>
         <button id="real">real button</button>
-      </tab-trap>
+      </tab-guard>
       <button id="outside">outside</button>
     `);
 
@@ -236,14 +238,14 @@ describe("tab-trap", () => {
 
   it("handles disabled fieldsets", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <fieldset disabled>
           <legend>Test</legend>
           <input type="text" />
         </fieldset>
         <button id="first">first</button>
         <button id="second">second</button>
-      </tab-trap>
+      </tab-guard>
       <button>outside</button>
     `);
 
@@ -253,13 +255,13 @@ describe("tab-trap", () => {
 
   it("handles [hidden] elements", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <div hidden>
           <button>hidden</button>
         </div>
         <button id="first">first</button>
         <button id="second">second</button>
-      </tab-trap>
+      </tab-guard>
       <button>outside</button>
     `);
 
@@ -269,13 +271,13 @@ describe("tab-trap", () => {
 
   it("handles non-visible elements", async () => {
     const el = await fixture(html`
-      <tab-trap id="what">
+      <tab-guard id="what">
         <div style="display:none">
           <button id="error">hidden</button>
         </div>
         <button id="first">first</button>
         <button id="second">second</button>
-      </tab-trap>
+      </tab-guard>
       <button>outside</button>
     `);
 
@@ -285,12 +287,12 @@ describe("tab-trap", () => {
 
   it("handles contenteditable", async () => {
     const el = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <div contenteditable="false">Lorem, ipsum dolor.</div>
         <div contenteditable id="first">Lorem ipsum dolor sit amet.</div>
         <div contenteditable tabindex="-1">Lorem ipsum dolor sit amet.</div>
         <button id="second">second</button>
-      </tab-trap>
+      </tab-guard>
       <button>outside</button>
     `);
 
@@ -301,7 +303,7 @@ describe("tab-trap", () => {
   describe("radios", () => {
     it("focuses first radio if none checked", async () => {
       const el = await fixture(html`
-        <tab-trap>
+        <tab-guard>
           <label>
             Radio 1
             <input name="test" type="radio" id="first" />
@@ -315,7 +317,7 @@ describe("tab-trap", () => {
             <input name="test" type="radio" />
           </label>
           <button id="second">second</button>
-        </tab-trap>
+        </tab-guard>
         <button>outside</button>
       `);
 
@@ -325,7 +327,7 @@ describe("tab-trap", () => {
 
     it("focuses first checked radio if one exists", async () => {
       const el = await fixture(html`
-        <tab-trap>
+        <tab-guard>
           <label>
             Radio 1
             <input name="test" type="radio" />
@@ -339,7 +341,7 @@ describe("tab-trap", () => {
             <input name="test" type="radio" />
           </label>
           <button id="second">second</button>
-        </tab-trap>
+        </tab-guard>
         <button>outside</button>
       `);
 
@@ -349,7 +351,7 @@ describe("tab-trap", () => {
 
     it("focuses first non-disabled radio", async () => {
       await fixture(html`
-        <tab-trap>
+        <tab-guard>
           <label>
             Radio 1
             <input name="test" type="radio" disabled />
@@ -363,7 +365,7 @@ describe("tab-trap", () => {
             <input name="test" type="radio" />
           </label>
           <button id="second">second</button>
-        </tab-trap>
+        </tab-guard>
         <button>outside</button>
       `);
 
@@ -373,12 +375,12 @@ describe("tab-trap", () => {
   });
 
   it("can be programmatically focused", async () => {
-    /** @type {TabTrap} */
+    /** @type {TabGuard} */
     const trap = await fixture(html`
-      <tab-trap>
+      <tab-guard>
         <button disabled>disabled</button>
         <button id="expected">enabled</button>
-      </tab-trap>
+      </tab-guard>
       <button>outside</button>
     `);
 

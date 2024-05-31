@@ -5,19 +5,19 @@ import Example from "./Example.astro";
 <Example class="">
   <button popovertarget="menu">Menu</button>
   <div popover id="menu">
-    <tab-trap>
+    <tab-guard>
       <label>Example: <input type="text" /></label>
       <label>Example: <input type="text" /></label>
-    </tab-trap>
+    </tab-guard>
   </div>
 </Example>
 
 <script>
-  import { TabTrap } from "../../../src/tab-trap";
+  import { type TabGuard } from "../../../src/tab-guard";
 
   const toggle = document.querySelector("button[popovertarget]")!;
   const popover = document.querySelector<HTMLElement>("[popover]")!;
-  const trap = popover.querySelector<TabTrap>("tab-trap")!;
+  const trap = popover.querySelector<TabGuard>("tab-guard")!;
 
   popover.addEventListener("beforetoggle", () => {
     const box = toggle.getBoundingClientRect();

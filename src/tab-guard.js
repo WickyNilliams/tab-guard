@@ -7,7 +7,7 @@
 
 /**
  * @param {Element} node
- * @param {TabTrap} trap
+ * @param {TabGuard} trap
  * @param {Set<string>} radios tracks seen radio groups
  * @returns {HTMLElement | undefined}
  */
@@ -80,7 +80,7 @@ const DISABLED = "disabled";
 // position: absolute takes the guard out of flexbox flow, whilst remaining focusable
 const template = `<slot></slot><div tabindex="0" aria-hidden="true" style="position:absolute"></div>`;
 
-export class TabTrap extends HTMLElement {
+export class TabGuard extends HTMLElement {
   #guard;
   #slot;
   #isWrapping = false;
@@ -182,4 +182,4 @@ export class TabTrap extends HTMLElement {
   }
 }
 
-customElements.define("tab-trap", TabTrap);
+customElements.define("tab-guard", TabGuard);

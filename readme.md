@@ -1,6 +1,6 @@
-# `<tab-trap>`
+# `<tab-guard>`
 
-Tab trap is a custom element/web component that traps tab presses.
+Tab guard is a custom element/web component that traps tab presses.
 
 - **Small** - 0.8KB min/brotli
 - **Simple** - practically no API
@@ -9,7 +9,7 @@ Tab trap is a custom element/web component that traps tab presses.
 ## Installation
 
 ```bash
-npm install tab-trap
+npm install tab-guard
 ```
 
 ## Usage
@@ -17,55 +17,55 @@ npm install tab-trap
 ### Via module
 
 ```js
-import "tab-trap";
+import "tab-guard";
 ```
 
 ### Via CDN
 
 ```html
-<script type="module" src="https://unpkg.com/tab-trap"></script>
+<script type="module" src="https://unpkg.com/tab-guard"></script>
 ```
 
 ### Using the component
 
 ```html
-<tab-trap>
+<tab-guard>
   <button>Button 1</button>
   <button>Button 2</button>
   <button>Button 3</button>
-</tab-trap>
+</tab-guard>
 <button>Button 4</button>
 ```
 
-Tab traps can be `disabled`:
+Traps can be `disabled`:
 
 ```html
-<tab-trap>
+<tab-guard>
   <button>Button 1</button>
   <button>Button 2</button>
-  <tab-trap disabled>
+  <tab-guard disabled>
     <button>Button 3</button>
     <button>Button 4</button>
-  </tab-trap>
-</tab-trap>
+  </tab-guard>
+</tab-guard>
 ```
 
-Tab traps can be nested:
+Traps can be nested:
 
 ```html
-<tab-trap>
+<tab-guard>
   <button>Button 1</button>
   <button>Button 2</button>
-  <tab-trap>
+  <tab-guard>
     <button>Button 3</button>
     <button>Button 4</button>
-  </tab-trap>
-</tab-trap>
+  </tab-guard>
+</tab-guard>
 ```
 
 ## Docs
 
-For full documentation, visit: https://wicky.nillia.ms/tab-trap/
+For full documentation, visit: https://wicky.nillia.ms/tab-guard/
 
 ## License
 

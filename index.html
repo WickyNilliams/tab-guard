@@ -9,7 +9,7 @@
         font-family: sans-serif;
       }
 
-      tab-trap {
+      tab-guard {
         --color: red;
         --border-style: solid;
         padding: 1.5em;
@@ -18,7 +18,7 @@
         margin-block-end: 2em;
       }
 
-      :is(.stack, tab-trap) {
+      :is(.stack, tab-guard) {
         display: flex;
         flex-direction: column;
         gap: 1em;
@@ -28,21 +28,21 @@
         gap: 0.5em;
       }
 
-      :is(tab-trap .stack) > * {
+      :is(tab-guard .stack) > * {
         margin: 0;
       }
 
-      tab-trap:not([disabled]):focus-within {
+      tab-guard:not([disabled]):focus-within {
         --border-style: solid;
         background: rgba(255, 0, 0, 0.1);
       }
 
-      tab-trap[disabled] {
+      tab-guard[disabled] {
         --color: grey;
         background: white;
       }
 
-      tab-trap::after {
+      tab-guard::after {
         content: "Enabled";
         position: absolute;
         inset-inline-end: 1.5em;
@@ -54,7 +54,7 @@
         font-size: 0.875em;
       }
 
-      tab-trap:not([disabled]):focus-within::after {
+      tab-guard:not([disabled]):focus-within::after {
         content: "Trapped";
         background: var(--color);
         border-color: white;
@@ -63,7 +63,7 @@
         color: white;
       }
 
-      tab-trap[disabled]::after {
+      tab-guard[disabled]::after {
         border-color: var(--color);
         content: "Disabled";
       }
@@ -76,7 +76,7 @@
   <body>
     <h2>Basic</h2>
 
-    <tab-trap>
+    <tab-guard>
       <p>If you tab into here you won't be able to tab out</p>
       <label>
         Example:
@@ -87,11 +87,11 @@
         <input type="text" />
       </label>
       <button>Toggle</button>
-    </tab-trap>
+    </tab-guard>
 
     <h2>Nested traps</h2>
-    <tab-trap>
-      <p>You can nest tab traps inside one another</p>
+    <tab-guard>
+      <p>You can nest traps inside one another</p>
 
       <label>
         Example:
@@ -102,8 +102,8 @@
         <input type="text" />
       </label>
 
-      <tab-trap disabled>
-        <p>Inner tab trap</p>
+      <tab-guard disabled>
+        <p>Inner trap</p>
 
         <label>
           Example:
@@ -111,14 +111,14 @@
         </label>
 
         <button>Toggle inner</button>
-      </tab-trap>
+      </tab-guard>
 
       <button>Toggle outer</button>
-    </tab-trap>
+    </tab-guard>
 
     <h2>Handling shadow roots</h2>
 
-    <tab-trap>
+    <tab-guard>
       <p>Shadow roots are correctly handled</p>
 
       <div>
@@ -130,14 +130,14 @@
       <label>Outside a shadow root: <input type="text" /> </label>
 
       <button>Toggle</button>
-    </tab-trap>
+    </tab-guard>
 
     <h2>Radios</h2>
 
-    <tab-trap>
+    <tab-guard>
       <p>
         Radios are complicated since they effectively have a roving tab index.
-        But tab-trap handles them just fine
+        But tab-guard handles them just fine
       </p>
 
       <div class="stack stack-s">
@@ -147,15 +147,15 @@
       </div>
 
       <button>Toggle</button>
-    </tab-trap>
+    </tab-guard>
 
     <script type="module">
-      import "../src/tab-trap.js";
+      import "../src/tab-guard.js";
 
       document.addEventListener("click", (e) => {
         const button = e.target.closest("button");
         if (button) {
-          const trap = button.closest("tab-trap");
+          const trap = button.closest("tab-guard");
           trap.disabled = !trap.disabled;
         }
       });
